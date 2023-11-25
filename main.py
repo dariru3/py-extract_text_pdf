@@ -25,8 +25,15 @@ def save_text_to_file(text, pdf_path):
     with open(output_path, 'w', encoding='utf-8') as file:
         file.write(text)
 
+def process_pdf_files(folder_path):
+    for filename in os.listdir(folder_path):
+        if filename.lower().endswith('pdf'):
+            pdf_path = os.path.join(folder_path, filename)
+            extracted_text = extract_text_from_pdf(pdf_path)
+            cleaned_text = clean_japanese_text(extracted_text)
+            save_text_to_file(cleaned_text, filename)
+            print(f'Processed {filename}')
+
 if __name__ == '__main__':
-    file_path = config["filepath"]
-    extracted_text = extract_text_from_pdf(file_path)
-    cleaned_text = clean_japanese_text(extracted_text)
-    save_text_to_file(cleaned_text, file_path)
+    folder_path = config["folder_path"]
+    process_pdf_files(folder_path)
