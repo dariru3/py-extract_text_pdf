@@ -4,8 +4,10 @@ def extract_text_from_pdf(pdf_path):
     with open(pdf_path, 'rb') as file:
         reader = PyPDF2.PdfReader(file)
         text = ""
-        for page in range(len(reader.pages)):
-            text += reader.pages[page].extract_text()
+        for page_num, page in enumerate(reader.pages, start=1):
+            text += f"PAGE {page_num}\n"
+            text += page.extract_text()
+            text += "\n----------------------------------------\n"
         return text
 
 def save_text_to_file(text, output_path):
