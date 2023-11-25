@@ -1,6 +1,7 @@
 import PyPDF2
 import re
 import os
+from config import config
 
 def extract_text_from_pdf(pdf_path):
     with open(pdf_path, 'rb') as file:
@@ -24,7 +25,8 @@ def save_text_to_file(text, pdf_path):
     with open(output_path, 'w', encoding='utf-8') as file:
         file.write(text)
 
-file_path = "input_files/SR21_J_All.pdf"
-extracted_text = extract_text_from_pdf(file_path)
-cleaned_text = clean_japanese_text(extracted_text)
-save_text_to_file(cleaned_text, file_path)
+if __name__ == '__main__':
+    file_path = config["filepath"]
+    extracted_text = extract_text_from_pdf(file_path)
+    cleaned_text = clean_japanese_text(extracted_text)
+    save_text_to_file(cleaned_text, file_path)
