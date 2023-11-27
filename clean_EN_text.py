@@ -4,7 +4,6 @@ from config import config
 
 def remove_lines(text, lines):
     for line in lines:
-        pattern = re.escape(line) + r"\n?"
         text = re.sub(line, '', text)
 
     text = re.sub(r'\n{2,}','\n', text)
