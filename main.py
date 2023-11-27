@@ -6,6 +6,10 @@ from config import config
 def extract_text_from_pdf(pdf_path):
     with open(pdf_path, 'rb') as file:
         reader = PyPDF2.PdfReader(file)
+
+        if reader.is_encrypted:
+            return
+
         text = ""
         for page_num, page in enumerate(reader.pages, start=1):
             text += f"PAGE {page_num}\n"
