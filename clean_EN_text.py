@@ -1,16 +1,6 @@
 import re
 import os
-
-remove_specific_lines = [
-    r"NISSAN MOTOR CORPORATION SUSTAINABILITY REPORT 2021\d*Contents",
-    r"EnvironmentalCEO Message",
-    r"SocialCSO Message",
-    r"GovernanceCarbon Neutrality/ \nResponse to COVID-19",
-    r"ESG DataChair of the Board of \nDirectors Message",
-    r"Editorial PolicySustainability at Nissan",
-    r"TCFD Content IndexNissan's Contribution \nto the SDGsThe Alliance",
-    r"GRI Content IndexQuick Guide For \nInvestors"
-]
+from config import config
 
 def remove_lines(text, lines):
     for line in lines:
@@ -52,7 +42,7 @@ def is_title_case(line):
     return True
 
 def clean_text(text):
-    text = remove_lines(text, remove_specific_lines)
+    text = remove_lines(text, config["lines_to_remove"])
     lines = text.split('\n')
     cleaned_lines = []
     for line in lines:
@@ -72,7 +62,7 @@ def save_text_to_file(text, output_path):
         file.write(text)
 
 if __name__ == '__main__':
-    input_file = 'SR21_E_All_output_text.txt'  # Update this path to your text file
+    input_file = config["input_file"]
     output_file = 'cleaned_output_text.txt'
 
     extracted_text = read_text_from_file(input_file)
