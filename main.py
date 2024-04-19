@@ -1,21 +1,21 @@
-import PyPDF2
+import fitz # PyMuPDF
 import re
 import os
 from config import config
 
 def extract_text_from_pdf(pdf_path):
-    with open(pdf_path, 'rb') as file:
-        reader = PyPDF2.PdfReader(file)
+    document = fitz.open(pdf_path)
 
-        if reader.is_encrypted:
-            return
+    if document.is_encrypted:
+        return
 
-        text = ""
-        for page_num, page in enumerate(reader.pages, start=1):
-            text += f"PAGE {page_num}\n"
-            text += page.extract_text()
-            text += "\n----------------------------------------\n"
-        return text
+    text = ""
+    for page_num, page in enumerate(document, start=1):
+        text += f"PAGE {page_num}\n"
+        text += page.get_text()
+        text += "\n----------------------------------------\n"
+    document.close()
+    return text
 
 def clean_japanese_text(text):
     # Regular expression pattern to identify and remove spaces between Japanese characters
